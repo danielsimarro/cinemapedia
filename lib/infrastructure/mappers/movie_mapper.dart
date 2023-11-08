@@ -20,6 +20,7 @@ class MovieMapper {
       releaseDate: moviedb.releaseDate,
       title: moviedb.title,
       video: moviedb.video,
-      voteAverage: moviedb.voteAverage,
+      // Aqui hemos redondeado el valor que nos ofrecen
+      voteAverage: double.parse(moviedb.voteAverage.toStringAsFixed(2)),
       voteCount: moviedb.voteCount);
 }
