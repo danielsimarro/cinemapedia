@@ -9,6 +9,30 @@ final nowPlayingMoviesProvider =
   return MoviesNotifier(fetchMoreMovies: featchMoreMovies);
 });
 
+// Popular movies provider
+final popularMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final featchMoreMovies = ref.watch(movieRepositoryProvider).getPopular;
+
+  return MoviesNotifier(fetchMoreMovies: featchMoreMovies);
+});
+
+// Upcoming provider
+final upcomingMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final featchMoreMovies = ref.watch(movieRepositoryProvider).getUpcoming;
+
+  return MoviesNotifier(fetchMoreMovies: featchMoreMovies);
+});
+
+// Top-rated provider
+final topratedMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final featchMoreMovies = ref.watch(movieRepositoryProvider).getTopRated;
+
+  return MoviesNotifier(fetchMoreMovies: featchMoreMovies);
+});
+
 typedef MovieCallback = Future<List<Movie>> Function({int page});
 
 // Cada vez que llamaemos a load incrementamos en 1 la pagina
