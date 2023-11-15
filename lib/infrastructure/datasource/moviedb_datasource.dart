@@ -92,4 +92,22 @@ class MoviedbDatasource extends MoviesDataSource {
     final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
     return movie;
   }
+
+  @override
+  Future<List<Movie>> searchMovies(String query) async {
+    if (query.isEmpty) return [];
+
+    final response =
+        await dio.get('/search/movie', queryParameters: {'query': query});
+
+    final movieDBResponse = MovieDbResponse.fromJson(response.data);
+
+    final List<Movie> movies = movieDBResponse.results
+        .
+        // COmprobamos si la pelicula no tienen poster no se muestre, con el where
+        where((moviedb) => moviedb.posterPath != 'no-poster')
+        .map((moviedb) => MovieMapper.movieDTtoEntity(moviedb))
+        .toList();
+    return movies;
+  }
 }
