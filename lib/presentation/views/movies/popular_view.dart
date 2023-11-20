@@ -1,47 +1,38 @@
+import 'package:cinemapedia/presentation/screens/provider/movies/movies_providers.dart';
 import 'package:cinemapedia/presentation/views/movies/movies_masonry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../screens/provider/storage/favorite_movies_provider.dart';
 
 //init
 
-class FavoritesView extends ConsumerStatefulWidget {
-  const FavoritesView({super.key});
+class PopularView extends ConsumerStatefulWidget {
+  const PopularView({super.key});
 
   @override
   FovoritesViewState createState() => FovoritesViewState();
 }
 
-class FovoritesViewState extends ConsumerState<FavoritesView> {
+class FovoritesViewState extends ConsumerState<PopularView> {
   bool isLastPage = false;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    ref.read(favoriteMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
   }
 
   void loadNextPage() async {
-    if (isLoading || isLastPage) return;
-    isLoading = true;
-
-    final movies =
-        await ref.read(favoriteMoviesProvider.notifier).loadNextPage();
-    isLoading = false;
-
-    if (movies.isEmpty) {
-      isLastPage = true;
-    }
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
-    final favoritesMovies = ref.watch(favoriteMoviesProvider).values.toList();
+    final popularMovies = ref.watch(popularMoviesProvider);
 
     // Si no hay peliculas favoritas
-    if (favoritesMovies.isEmpty) {
+    if (popularMovies.isEmpty) {
       final colors = Theme.of(context).colorScheme;
       return Center(
           child: Column(
@@ -64,8 +55,8 @@ class FovoritesViewState extends ConsumerState<FavoritesView> {
     return Scaffold(
         body: MoviesMansonry(
       loadNextPage: loadNextPage,
-      movies: favoritesMovies,
-      column: 3,
+      movies: popularMovies,
+      column: 2,
     ));
   }
 }

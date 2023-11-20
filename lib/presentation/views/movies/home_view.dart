@@ -2,6 +2,8 @@ import 'package:cinemapedia/presentation/screens/provider/providers.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:intl/intl.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -23,6 +25,10 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    var now = DateTime.now();
+    var formatter = DateFormat('EEEE');
+    String formattedDate = formatter.format(now);
+
     // Pantalla de carga
     final initialLoading = ref.watch(initialLoadingProvider);
     if (initialLoading) return const FullScreenLoader();
@@ -53,7 +59,7 @@ class HomeViewState extends ConsumerState<HomeView> {
             MovieHorizontalListview(
                 movies: nowPlayingMovies,
                 title: 'En cines',
-                subTitle: 'Miercoles 08',
+                subTitle: diaSemana(formattedDate),
                 loadNextPage: () =>
                     // Llamamos al load
                     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
@@ -89,5 +95,26 @@ class HomeViewState extends ConsumerState<HomeView> {
         }, childCount: 1))
       ],
     );
+  }
+}
+
+String diaSemana(day) {
+  switch (day.toLowerCase()) {
+    case 'monday':
+      return 'lunes';
+    case 'tuesday':
+      return 'martes';
+    case 'wednesday':
+      return 'miércoles';
+    case 'thursday':
+      return 'jueves';
+    case 'friday':
+      return 'viernes';
+    case 'saturday':
+      return 'sábado';
+    case 'sunday':
+      return 'domingo';
+    default:
+      return 'Día no válido';
   }
 }

@@ -43,6 +43,8 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>> {
     return movies;
   }
 
+  //Actualiza el favorito. Ej: Cuando nosotros pulsamos en favorito en una movie, esta al recargar favorito aparece
+
   Future<void> toggleFavorite(Movie movie) async {
     await localStorageRepository.toggleFavorite(movie);
     final bool isMovieInFavorites = state[movie.id] != null;

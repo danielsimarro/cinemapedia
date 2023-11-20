@@ -11,6 +11,7 @@ Future<void> main() async {
   runApp(const ProviderScope(
     child: MainApp(),
   ));
+
 }
 
 class MainApp extends ConsumerWidget {

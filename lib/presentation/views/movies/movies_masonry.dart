@@ -6,8 +6,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class MoviesMansonry extends StatefulWidget {
   final List<Movie> movies;
   final VoidCallback? loadNextPage;
+  final int column;
 
-  const MoviesMansonry({super.key, required this.movies, this.loadNextPage});
+  const MoviesMansonry(
+      {super.key,
+      required this.movies,
+      this.loadNextPage,
+      required this.column});
 
   @override
   State<MoviesMansonry> createState() => _MoviesMansonryState();
@@ -45,7 +50,7 @@ class _MoviesMansonryState extends State<MoviesMansonry> {
       child: MasonryGridView.count(
         // Vamos a crear el controller para detectar cuando mostrar las nuevas peliculas
         controller: scrollControllerFavorite,
-        crossAxisCount: 3,
+        crossAxisCount: widget.column,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
         itemCount: widget.movies.length,
