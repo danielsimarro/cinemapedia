@@ -2,8 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/screens/provider/actors/actors_by_movie_provider.dart';
 import 'package:cinemapedia/presentation/screens/provider/providers.dart';
+import 'package:cinemapedia/presentation/widgets/movies/movie_recommendations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../widgets/video/videos_from_movies.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie_screen';
@@ -55,6 +58,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
+// Pantalla de las  peliculas
 class _MovieDetails extends StatelessWidget {
   final Movie movie;
   const _MovieDetails({required this.movie});
@@ -110,14 +114,24 @@ class _MovieDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20)),
                     ),
                   )),
+
               _ActorsByMovie(movieId: movie.id.toString()),
             ],
           ),
         ),
 
-        const SizedBox(
-          height: 100,
-        )
+        //* Videos de la película (si tiene)
+        VideosFromMovie(movieId: movie.id),
+
+        //* Recomendaciones
+        const Padding(
+          padding: EdgeInsets.only(left: 10, top: 20),
+          child: Text('Recomendadas',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+        ),
+        MovieFromRecommend(
+          movieId: movie.id,
+        ),
       ],
     );
   }
@@ -148,7 +162,7 @@ class _ActorsByMovie extends ConsumerWidget {
             final actor = actors[index];
 
             return Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               width: 135,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,9 +218,11 @@ class _CustomSliverAppbar extends ConsumerWidget {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-              onPressed: () async{
-                await ref.read(favoriteMoviesProvider.notifier).toggleFavorite(movie);
-                //Invalidamos esto para que vuelva a compronar si cuando pulsemos el boton 
+              onPressed: () async {
+                await ref
+                    .read(favoriteMoviesProvider.notifier)
+                    .toggleFavorite(movie);
+                //Invalidamos esto para que vuelva a compronar si cuando pulsemos el boton
                 // esta en favorito asi realizamos la modificacion del mismo
                 ref.invalidate(isFavoriteProvider(movie.id));
               },
@@ -224,12 +240,12 @@ class _CustomSliverAppbar extends ConsumerWidget {
               ))
         ],
         flexibleSpace: FlexibleSpaceBar(
-          titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          /*titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           title: Text(
             movie.title,
             style: const TextStyle(fontSize: 20),
             textAlign: TextAlign.start,
-          ),
+          ),*/
           background: Stack(
             children: [
               SizedBox.expand(

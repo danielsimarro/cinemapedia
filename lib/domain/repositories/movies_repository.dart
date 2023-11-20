@@ -1,5 +1,7 @@
 import 'package:cinemapedia/domain/entities/movie.dart';
 
+import '../entities/video.dart';
+
 abstract class MoviesRepository {
   Future<List<Movie>> getNowPlaying({int page = 1});
 
@@ -13,4 +15,8 @@ abstract class MoviesRepository {
 
   // Buscador de películas
   Future<List<Movie>> searchMovies(String query);
+  // Video
+  Future<List<Video>> getVideo(String id);
+  // Obtener las peliculas recomendadas de otras peliculas
+  Future<List<Movie>> getRecommendations(String id);
 }
