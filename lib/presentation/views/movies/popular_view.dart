@@ -3,7 +3,6 @@ import 'package:cinemapedia/presentation/views/movies/movies_masonry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 //init
 
 class PopularView extends ConsumerStatefulWidget {
@@ -13,7 +12,8 @@ class PopularView extends ConsumerStatefulWidget {
   FovoritesViewState createState() => FovoritesViewState();
 }
 
-class FovoritesViewState extends ConsumerState<PopularView> {
+class FovoritesViewState extends ConsumerState<PopularView>
+    with AutomaticKeepAliveClientMixin {
   bool isLastPage = false;
   bool isLoading = false;
 
@@ -29,6 +29,7 @@ class FovoritesViewState extends ConsumerState<PopularView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final popularMovies = ref.watch(popularMoviesProvider);
 
     // Si no hay peliculas favoritas
@@ -59,4 +60,7 @@ class FovoritesViewState extends ConsumerState<PopularView> {
       column: 2,
     ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -84,8 +84,7 @@ class _MovieDetails extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              SizedBox(
-                width: (size.width - 40) * 0.7,
+              Expanded(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -124,14 +123,12 @@ class _MovieDetails extends StatelessWidget {
         VideosFromMovie(movieId: movie.id),
 
         //* Recomendaciones
-        const Padding(
-          padding: EdgeInsets.only(left: 10, top: 20),
-          child: Text('Recomendadas',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-        ),
         MovieFromRecommend(
           movieId: movie.id,
         ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }

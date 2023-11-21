@@ -54,9 +54,17 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.movies.isEmpty) {
+      return const SizedBox();
+    }
     return SizedBox(
       height: 350,
-      child: Column(children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 10, bottom: 10, top: 20),
+          child: Text('Recomendadas',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+        ),
         if (widget.title != null || widget.subTitle != null)
           _Title(
             title: widget.title,
